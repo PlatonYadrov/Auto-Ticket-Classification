@@ -1,20 +1,20 @@
 train:
-  # Training parameters
-  max_epochs: 3
+  # Training parameters (optimized for BERT fine-tuning)
+  max_epochs: 15
   batch_size: 16
-  learning_rate: 2.0e-5
+  learning_rate: 1.0e-5  # Lower LR for stable fine-tuning
   weight_decay: 0.01
-  warmup_ratio: 0.1
+  warmup_ratio: 0.15  # More warmup for BERT
   gradient_clip_val: 1.0
 
   # Scheduler
   scheduler: "linear_warmup"
 
-  # Early stopping
+  # Early stopping (monitor F1, not loss)
   early_stopping: true
-  early_stopping_patience: 3
-  early_stopping_metric: "val_loss"
-  early_stopping_mode: "min"
+  early_stopping_patience: 5  # More patience
+  early_stopping_metric: "val_f1_macro"  # F1 is better indicator
+  early_stopping_mode: "max"
 
   # Checkpointing
   checkpoint_dir: "checkpoints"

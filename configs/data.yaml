@@ -18,7 +18,8 @@ data:
 
   # Raw data column mapping (for preprocessing)
   # Для Kaggle Customer Support Ticket Dataset:
-  text_columns: ["Ticket Subject", "Ticket Description"]  # будут объединены
+  # Using Subject + Description for more context
+  text_columns: ["Ticket Subject", "Ticket Description"]
   raw_topic_column: "Ticket Type"
   raw_priority_column: "Ticket Priority"
   

@@ -109,8 +109,30 @@ def _clean_data(dataframe: pd.DataFrame, cfg: DictConfig) -> pd.DataFrame:
     text_col = "text"
     dataframe = dataframe.dropna(subset=[text_col])
 
+    # Clean template placeholders like {product_purchased}
+    dataframe[text_col] = dataframe[text_col].astype(str).str.replace(
+        r"\{[^}]+\}", "", regex=True
+    )
+    
+    # Remove code snippets and special patterns
+    code_patterns = [
+        r"\}\s*else\s*\{[^}]*\}",  # else blocks
+        r"\$\w+",  # PHP/shell variables
+        r"return\s+\$?\w+",  # return statements
+        r"function\s*\([^)]*\)",  # function calls
+        r"<[^>]+>",  # HTML tags
+        r"\[[^\]]*\]",  # brackets content
+    ]
+    for pattern in code_patterns:
+        dataframe[text_col] = dataframe[text_col].str.replace(pattern, " ", regex=True)
+    
+    # Remove excessive whitespace
+    dataframe[text_col] = dataframe[text_col].str.replace(r"\s+", " ", regex=True)
+    
+    logger.info("Applied advanced text cleaning (templates, code snippets)")
+
     if preprocess_cfg.strip_whitespace:
-        dataframe[text_col] = dataframe[text_col].astype(str).str.strip()
+        dataframe[text_col] = dataframe[text_col].str.strip()
 
     if preprocess_cfg.lowercase:
         dataframe[text_col] = dataframe[text_col].str.lower()
