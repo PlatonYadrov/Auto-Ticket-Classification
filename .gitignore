@@ -99,9 +99,12 @@ dmypy.json
 *.plan
 *.engine
 
-# Checkpoints (too large for git)
+# Checkpoints and training logs (too large for git)
 checkpoints/*.ckpt
+checkpoints/**/*.ckpt
+!checkpoints/.gitkeep
 lightning_logs/
+lightning_logs/**
 
 # DVC local cache
 .dvc/cache
