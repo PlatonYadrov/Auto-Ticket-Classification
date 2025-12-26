@@ -1,0 +1,24 @@
+preprocess:
+  # Cleaning steps
+  lowercase: true
+  strip_whitespace: true
+  remove_signatures: true
+  remove_urls: true
+  remove_emails: true
+  min_text_length: 10
+
+  # Signature patterns to remove
+  signature_patterns:
+    - "Best regards,.*"
+    - "Sincerely,.*"
+    - "Thanks,.*"
+    - "Cheers,.*"
+    - "--\\s*$"
+
+  # Split ratios
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+  # Stratification
+  stratify_column: "topic"

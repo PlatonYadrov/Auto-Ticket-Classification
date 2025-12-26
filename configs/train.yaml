@@ -1,0 +1,48 @@
+train:
+  # Training parameters
+  max_epochs: 3
+  batch_size: 16
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  gradient_clip_val: 1.0
+
+  # Scheduler
+  scheduler: "linear_warmup"
+
+  # Early stopping
+  early_stopping: true
+  early_stopping_patience: 3
+  early_stopping_metric: "val_loss"
+  early_stopping_mode: "min"
+
+  # Checkpointing
+  checkpoint_dir: "checkpoints"
+  save_top_k: 1
+  checkpoint_metric: "val_f1_macro"
+  checkpoint_mode: "max"
+
+  # Hardware
+  # "auto" will use MPS on Apple Silicon, CUDA on NVIDIA, CPU otherwise
+  accelerator: "auto"
+  devices: 1
+  # Use 32 for MPS compatibility (16-mixed not fully supported on MPS)
+  precision: 32
+
+  # Multi-task loss weights
+  topic_loss_weight: 1.0
+  priority_loss_weight: 1.0
+
+  # Class weighting for imbalanced data
+  use_class_weights: true
+
+  # Tokenizer settings
+  max_length: 256
+  padding: "max_length"
+  truncation: true
+
+  # DataLoader settings
+  # num_workers: 0 for MPS (multiprocessing issues), increase for CUDA
+  num_workers: 0
+  # pin_memory: false for MPS, true for CUDA
+  pin_memory: false

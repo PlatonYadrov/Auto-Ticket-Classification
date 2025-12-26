@@ -1,0 +1,12 @@
+defaults:
+  - data
+  - preprocess
+  - train
+  - infer
+  - export
+  - logging
+  - model/multitask_bert
+  - _self_
+
+project_name: ticket-triage-ml
+seed: 42

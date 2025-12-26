@@ -1,0 +1,21 @@
+infer:
+  # ONNX model path
+  onnx_model_path: "artifacts/model.onnx"
+
+  # Tokenizer path (saved during training)
+  tokenizer_path: "artifacts/tokenizer"
+
+  # Label maps
+  label_maps_path: "artifacts/label_maps.json"
+
+  # Batch inference settings
+  batch_size: 32
+
+  # Tokenizer settings (must match training)
+  max_length: 256
+  padding: "max_length"
+  truncation: true
+
+  # Output format
+  include_scores: true
+  score_precision: 4

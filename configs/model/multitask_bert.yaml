@@ -1,0 +1,25 @@
+# Model architecture
+name: "multitask_bert"
+
+# Pretrained encoder
+encoder_name: "distilbert-base-uncased"
+freeze_encoder: false
+
+# Hidden dimensions
+hidden_size: 768 # Must match encoder
+classifier_dropout: 0.1
+
+# Classification heads
+topic_head:
+  hidden_dims: [256]
+  activation: "gelu"
+  dropout: 0.1
+
+priority_head:
+  hidden_dims: [128]
+  activation: "gelu"
+  dropout: 0.1
+
+# Number of classes (set dynamically from data)
+num_topics: null
+num_priorities: 3 # low, medium, high

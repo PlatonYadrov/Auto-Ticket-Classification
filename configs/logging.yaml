@@ -1,0 +1,30 @@
+logging:
+  # MLflow configuration
+  mlflow:
+    tracking_uri: "http://127.0.0.1:8080"
+    experiment_name: "ticket-triage-ml"
+    run_name: null # Auto-generated if null
+    log_model: true
+
+  # Plots directory
+  plots_dir: "plots"
+
+  # Plot settings
+  plots:
+    loss_curve: true
+    f1_curve: true
+    confusion_matrix_topic: true
+    confusion_matrix_priority: true
+
+  # Figure settings
+  figure:
+    dpi: 100
+    figsize: [10, 8]
+    style: "seaborn-v0_8-whitegrid"
+
+  # Console logging
+  console:
+    level: "INFO"
+    format:
+      "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> |
+      <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"

@@ -1,0 +1,32 @@
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  artifacts_dir: artifacts
+
+  # Primary data source - Kaggle dataset
+  kaggle_dataset: "praveengovi/customer-support-tickets"
+
+  # Fallback URL (public, no auth required)
+  fallback_url: "https://raw.githubusercontent.com/selva86/datasets/master/questions.csv"
+
+  # File names
+  raw_file: "tickets.csv"
+  train_file: "train.parquet"
+  val_file: "val.parquet"
+  test_file: "test.parquet"
+  label_maps_file: "label_maps.json"
+
+  # Raw data column mapping (for preprocessing)
+  # Для Kaggle Customer Support Ticket Dataset:
+  text_columns: ["Ticket Subject", "Ticket Description"]  # будут объединены
+  raw_topic_column: "Ticket Type"
+  raw_priority_column: "Ticket Priority"
+  
+  # Standardized column names (after preprocessing)
+  text_column: "text"
+  topic_column: "topic"
+  priority_column: "priority"
+
+  # Generate synthetic data if no internet
+  synthetic_fallback: true
+  synthetic_samples: 500

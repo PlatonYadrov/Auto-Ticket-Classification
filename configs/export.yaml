@@ -1,0 +1,21 @@
+export:
+  # ONNX export settings
+  onnx_output_path: "artifacts/model.onnx"
+  onnx_opset_version: 14
+
+  # Dynamic axes for variable batch size and sequence length
+  dynamic_axes:
+    input_ids: { 0: "batch_size", 1: "sequence_length" }
+    attention_mask: { 0: "batch_size", 1: "sequence_length" }
+    topic_logits: { 0: "batch_size" }
+    priority_logits: { 0: "batch_size" }
+
+  # Checkpoint to export
+  checkpoint_path: "checkpoints/best.ckpt"
+
+  # TensorRT settings (optional)
+  tensorrt:
+    output_path: "artifacts/model.plan"
+    fp16: true
+    max_batch_size: 32
+    max_workspace_size: 4294967296 # 4GB

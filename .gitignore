@@ -1,0 +1,139 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Data files (tracked by DVC)
+*.csv
+*.parquet
+*.json
+!configs/*.yaml
+!.prettierrc.json
+
+# Model files (tracked by DVC)
+*.onnx
+*.pth
+*.pt
+*.bin
+*.plan
+*.engine
+
+# Checkpoints (too large for git)
+checkpoints/*.ckpt
+lightning_logs/
+
+# DVC local cache
+.dvc/cache
+.dvc/tmp
+.dvc/plots
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Plots (keep directory structure)
+plots/*
+!plots/.gitkeep
+
+# Data directories (tracked by DVC)
+data/raw/*
+data/processed/*
+artifacts/*
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!artifacts/.gitkeep
+
+# Keep DVC files
+!*.dvc
+!.dvc/.gitignore
+!.dvc/config
