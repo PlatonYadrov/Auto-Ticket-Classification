@@ -3,26 +3,25 @@ data:
   processed_dir: data/processed
   artifacts_dir: artifacts
 
-  # Primary data source - Kaggle dataset
-  kaggle_dataset: "praveengovi/customer-support-tickets"
+  # Primary data source - Consumer Complaint Database (REAL data)
+  kaggle_dataset: "selener/consumer-complaint-database"
 
   # Fallback URL (public, no auth required)
   fallback_url: "https://raw.githubusercontent.com/selva86/datasets/master/questions.csv"
 
   # File names
-  raw_file: "tickets.csv"
-  train_file: "train.parquet"
-  val_file: "val.parquet"
-  test_file: "test.parquet"
+  raw_file: "rows.csv"
+  train_file: "train_sample.parquet" # Using 10k sample for fast training
+  val_file: "val_sample.parquet" # 2k validation
+  test_file: "test_sample.parquet" # 2k test
   label_maps_file: "label_maps.json"
 
   # Raw data column mapping (for preprocessing)
-  # Для Kaggle Customer Support Ticket Dataset:
-  # Using Subject + Description for more context
-  text_columns: ["Ticket Subject", "Ticket Description"]
-  raw_topic_column: "Ticket Type"
-  raw_priority_column: "Ticket Priority"
-  
+  # Consumer Complaint Database columns:
+  text_columns: ["Consumer complaint narrative"]
+  raw_topic_column: "Product"
+  raw_priority_column: "Timely response?" # Yes = low priority, No = high priority
+
   # Standardized column names (after preprocessing)
   text_column: "text"
   topic_column: "topic"

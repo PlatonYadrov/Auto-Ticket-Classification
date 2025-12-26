@@ -1,4 +1,4 @@
-.PHONY: help install setup data train train-fast train-full export infer serve test lint clean docker-up docker-down mlflow
+.PHONY: help install setup data train train-fast train-full export infer serve test lint clean docker-up docker-down mlflow evaluate
 
 # Цвета для вывода
 YELLOW := \033[1;33m
@@ -11,7 +11,7 @@ help:  ## Показать справку
 	@echo "$(CYAN)║     Auto Ticket Classification - Команды управления            ║$(NC)"
 	@echo "$(CYAN)╚══════════════════════════════════════════════════════════════╝$(NC)"
 	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-15s$(NC) %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-18s$(NC) %s\n", $$1, $$2}'
 	@echo ""
 
 # ==================== УСТАНОВКА ====================
@@ -100,10 +100,18 @@ pipeline: data train export  ## Полный пайплайн: данные → 
 pipeline-fast: data train-fast export  ## Быстрый пайплайн (1 эпоха)
 	@echo "$(GREEN)✓ Быстрый пайплайн завершён!$(NC)"
 
-# ==================== ТЕСТЫ И ЛИНТИНГ ====================
+# ==================== ТЕСТЫ И ОЦЕНКА ====================
 
 test:  ## Запустить тесты
 	poetry run pytest tests/ -v
+
+evaluate:  ## Оценить модель на тестовой выборке (метрики + графики)
+	@echo "$(YELLOW)📊 Запуск оценки модели...$(NC)"
+	poetry run python evaluate_model.py
+	@echo "$(GREEN)✓ Результаты сохранены в evaluation_results/$(NC)"
+	@echo "  • 5 графиков (PNG)"
+	@echo "  • test_results.json"
+	@echo "  • evaluation_report.txt"
 
 lint:  ## Проверить код (pre-commit)
 	poetry run pre-commit run -a
@@ -143,4 +151,3 @@ clean-all: clean  ## Полная очистка (включая модели)
 	rm -rf artifacts/model.onnx
 	rm -rf plots/*.png
 	@echo "$(GREEN)✓ Полная очистка выполнена$(NC)"
-

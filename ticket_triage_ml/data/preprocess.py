@@ -76,16 +76,18 @@ def _clean_data(dataframe: pd.DataFrame, cfg: DictConfig) -> pd.DataFrame:
         text_cols = list(cfg.data.text_columns)
         existing_cols = [c for c in text_cols if c in dataframe.columns]
         if existing_cols:
-            dataframe["text"] = dataframe[existing_cols].fillna("").astype(str).agg(" ".join, axis=1)
+            dataframe["text"] = (
+                dataframe[existing_cols].fillna("").astype(str).agg(" ".join, axis=1)
+            )
             logger.info(f"Combined columns {existing_cols} into 'text'")
-    
+
     # Map topic column from raw data
     raw_topic_col = cfg.data.get("raw_topic_column", cfg.data.topic_column)
     if raw_topic_col in dataframe.columns:
         dataframe["topic"] = dataframe[raw_topic_col]
         if raw_topic_col != "topic":
             logger.info(f"Mapped '{raw_topic_col}' to 'topic'")
-    
+
     # Map priority column from raw data
     raw_priority_col = cfg.data.get("raw_priority_column", cfg.data.priority_column)
     if raw_priority_col in dataframe.columns:
@@ -96,24 +98,33 @@ def _clean_data(dataframe: pd.DataFrame, cfg: DictConfig) -> pd.DataFrame:
     # Standardize priority values to low/medium/high
     if "priority" in dataframe.columns:
         priority_mapping = {
-            "Low": "low", "low": "low",
-            "Medium": "medium", "medium": "medium", 
-            "High": "high", "high": "high",
-            "Critical": "high", "critical": "high",
-            "Urgent": "high", "urgent": "high",
+            # Standard priority names
+            "Low": "low",
+            "low": "low",
+            "Medium": "medium",
+            "medium": "medium",
+            "High": "high",
+            "high": "high",
+            "Critical": "high",
+            "critical": "high",
+            "Urgent": "high",
+            "urgent": "high",
+            # Consumer Complaints: "Timely response?" - Yes=low (handled well), No=high (escalated)
+            "Yes": "low",
+            "yes": "low",
+            "No": "high",
+            "no": "high",
         }
         dataframe["priority"] = dataframe["priority"].map(
-            lambda x: priority_mapping.get(str(x), "medium")
+            lambda x: priority_mapping.get(str(x).strip(), "medium")
         )
 
     text_col = "text"
     dataframe = dataframe.dropna(subset=[text_col])
 
     # Clean template placeholders like {product_purchased}
-    dataframe[text_col] = dataframe[text_col].astype(str).str.replace(
-        r"\{[^}]+\}", "", regex=True
-    )
-    
+    dataframe[text_col] = dataframe[text_col].astype(str).str.replace(r"\{[^}]+\}", "", regex=True)
+
     # Remove code snippets and special patterns
     code_patterns = [
         r"\}\s*else\s*\{[^}]*\}",  # else blocks
@@ -125,10 +136,10 @@ def _clean_data(dataframe: pd.DataFrame, cfg: DictConfig) -> pd.DataFrame:
     ]
     for pattern in code_patterns:
         dataframe[text_col] = dataframe[text_col].str.replace(pattern, " ", regex=True)
-    
+
     # Remove excessive whitespace
     dataframe[text_col] = dataframe[text_col].str.replace(r"\s+", " ", regex=True)
-    
+
     logger.info("Applied advanced text cleaning (templates, code snippets)")
 
     if preprocess_cfg.strip_whitespace:

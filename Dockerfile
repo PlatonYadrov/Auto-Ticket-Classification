@@ -1,5 +1,5 @@
 # Auto Ticket Classification - Production Dockerfile
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
@@ -11,11 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Копируем файлы зависимостей
 COPY pyproject.toml poetry.lock* ./
+COPY README.md ./
 
 # Устанавливаем Poetry и зависимости
-RUN pip install --no-cache-dir poetry \
+RUN pip install --no-cache-dir poetry==1.7.1 \
     && poetry config virtualenvs.create false \
-    && poetry install --only main --no-root --no-interaction --no-ansi
+    && poetry install --only main --no-interaction --no-ansi
 
 # Копируем код приложения
 COPY ticket_triage_ml/ ./ticket_triage_ml/
